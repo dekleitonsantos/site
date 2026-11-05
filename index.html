@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kleiton Santos · Consultoria de Dados e IA</title>
+<meta name="description" content="Dashboards, relatórios automáticos, automação, agentes de IA e engenharia de dados. 6 anos construindo soluções de dados. Primeira entrega gratuita.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{--ink:#0A0A0A;--y:#FFD23F;--g1:#F2F2F2;--line:#D4D4D4;--mut:#4D4D4D;--mut2:#C9C9C9;--ok:#22C55E;--h:'Bricolage Grotesque',system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:#fff;font-size:16px;line-height:1.6}
+img{max-width:100%;display:block}
+a{color:var(--ink)}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--y);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:24px}
+.h{font-family:var(--h);font-weight:800;letter-spacing:-.035em;line-height:1;margin:0}
+.kick{font-size:14px;font-weight:700;letter-spacing:.12em;margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:14px 24px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .15s;border:0;cursor:pointer}
+.btn:hover{transform:translateY(-1px)}
+.btn.y{background:var(--y);color:var(--ink)}
+.btn.k{background:var(--ink);color:#fff}
+.btn.w{background:#fff;color:var(--ink)}
+.btn.o{background:transparent;color:#fff;border:1.5px solid #3A3A3A}
+.btn svg{flex:none}
+
+/* nav */
+nav{position:sticky;top:0;z-index:20;background:var(--ink);color:#fff;border-bottom:1px solid #1F1F1F}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
+.brand{font-family:var(--h);font-weight:800;font-size:20px;letter-spacing:-.01em;color:#fff;text-decoration:none;white-space:nowrap;min-height:44px;display:inline-flex;align-items:center}
+.links{display:flex;gap:24px;align-items:center}
+.links a{color:#fff;text-decoration:none;font-weight:500;font-size:15px;min-height:44px;display:inline-flex;align-items:center}
+.links a:hover{color:var(--y)}
+.links .btn{min-height:44px;padding:10px 18px;font-size:15px;color:var(--ink);white-space:nowrap;gap:0}
+.xl{margin-left:.3em}
+.links .btn:hover{color:var(--ink)}
+
+/* hero */
+.hero{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1px);background-size:28px 28px;animation:drift 40s linear infinite}
+@keyframes drift{to{background-position:280px 140px}}
+.hero-line{position:absolute;left:0;right:0;bottom:0;height:160px;pointer-events:none;opacity:.55}
+.hero-line path{fill:none;stroke:var(--y);stroke-width:2.5;stroke-dasharray:2400;stroke-dashoffset:2400;animation:draw 6s ease-out .6s forwards}
+.hero-line .area{fill:url(#fade);stroke:none;opacity:0;animation:fadein 2s ease 3s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fadein{to{opacity:1}}
+.hero .wrap{position:relative;display:flex;flex-wrap:wrap;gap:40px;align-items:flex-end;padding-top:48px}
+.hero-txt{flex:1 1 560px;min-width:0;display:flex;flex-direction:column;gap:26px;padding-bottom:72px}
+.hero .kick{color:var(--y)}
+.hero h1{font-size:clamp(40px,4.6vw,68px);line-height:.98;letter-spacing:-.035em}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .ln>span{display:inline-block;transform:translateY(105%);animation:up .9s cubic-bezier(.2,.8,.2,1) forwards}
+.hero h1 .ln:nth-child(2)>span{animation-delay:.18s}
+.hero h1 em{font-style:normal;color:var(--y)}
+@keyframes up{to{transform:none}}
+.reveal{opacity:0;transform:translateY(14px);animation:rv .8s ease forwards}
+.d1{animation-delay:.45s}.d2{animation-delay:.6s}.d3{animation-delay:.75s}
+@keyframes rv{to{opacity:1;transform:none}}
+.hero p.lede{margin:0;font-size:18px;color:var(--mut2);max-width:54ch}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.hero-cta span{font-size:15px;color:var(--mut2)}
+.stats{display:flex;flex-wrap:wrap;gap:12px 32px;border-top:1px solid #2A2A2A;padding-top:20px}
+.stats div{display:flex;flex-direction:column}
+.stats b{font-family:var(--h);font-size:24px;font-weight:800;color:#fff;line-height:1.1}
+.stats span{font-size:14px;color:var(--mut2)}
+
+.photo{flex:1 1 360px;min-width:0;display:flex;flex-direction:column;align-items:center}
+.ph-cap{width:100%;max-width:420px;padding:28px 0 32px 24px;display:flex;flex-direction:column;gap:2px}
+.ph-cap strong{font-family:var(--h);font-weight:800;font-size:24px;letter-spacing:-.02em;color:#fff;line-height:1.1}
+.ph-cap span{font-size:15px;color:var(--mut2)}
+.photo .fr{position:relative;width:100%;max-width:420px;padding-left:24px}
+.photo .fr::before{content:"";position:absolute;left:0;top:48px;right:40px;bottom:0;background:var(--y);transform-origin:bottom;animation:grow 1s cubic-bezier(.2,.8,.2,1) .2s both}
+@keyframes grow{from{transform:scaleY(0)}}
+.photo img{position:relative;width:100%;aspect-ratio:4/5;object-fit:cover;filter:grayscale(1) contrast(1.08)}
+.card{position:absolute;z-index:2;background:#fff;color:var(--ink);box-shadow:0 14px 34px rgba(0,0,0,.35);font-size:13px;line-height:1.35}
+.c-dash{top:-64px;right:-14px;width:200px;padding:14px;animation:float 5s ease-in-out infinite}
+.c-dash .t{display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.live{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:#166534;font-size:12px}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.3;transform:scale(.7)}}
+.bars{display:flex;align-items:flex-end;gap:6px;height:64px;margin-top:12px}
+.bars span{flex:1;background:var(--ink);height:30%;animation:bar 2.8s ease-in-out infinite}
+.bars span:nth-child(2){animation-delay:.2s}.bars span:nth-child(3){animation-delay:.4s}.bars span:nth-child(4){animation-delay:.6s}.bars span:nth-child(5){animation-delay:.8s}.bars span:nth-child(6){animation-delay:1s;background:var(--y)}
+@keyframes bar{0%,100%{height:25%}50%{height:95%}}
+.c-dash small{display:block;margin-top:8px;color:var(--mut)}
+.c-note{left:-6px;bottom:56px;width:260px;padding:12px 14px;display:flex;gap:10px;align-items:center;animation:float 6s ease-in-out 1s infinite}
+.c-note .ic{flex:none;width:34px;height:34px;background:var(--y);display:grid;place-items:center}
+.c-note .msg{min-height:36px;display:flex;flex-direction:column;justify-content:center;transition:opacity .35s,transform .35s}
+.c-note .msg.out{opacity:0;transform:translateY(6px)}
+.c-note b{display:block}
+.c-note span{color:var(--mut)}
+@keyframes float{50%{transform:translateY(-8px)}}
+
+/* marquee */
+.band{background:var(--y);overflow:hidden}
+.track{display:flex;width:max-content;animation:mq 34s linear infinite}
+.band:hover .track,.band:focus-within .track{animation-play-state:paused}
+.track a{display:inline-flex;align-items:center;gap:14px;padding:16px 22px;font-family:var(--h);font-weight:800;font-size:18px;letter-spacing:-.01em;text-decoration:none;color:var(--ink);white-space:nowrap}
+.track a:hover{text-decoration:underline;text-underline-offset:4px}
+.track a::after{content:"";width:8px;height:8px;background:var(--ink);transform:rotate(45deg);margin-left:22px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+section{padding-block:80px}
+.sec-head{display:flex;flex-wrap:wrap;gap:16px 48px;align-items:flex-end;justify-content:space-between;margin-bottom:40px}
+.sec-head h2{font-size:clamp(30px,3.4vw,46px);max-width:18ch}
+.sec-head p{margin:0;max-width:44ch;color:var(--mut)}
+
+/* serviços home */
+.svcs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.svc{background:#fff;padding:28px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--ink);transition:background .2s}
+.svc:hover{background:var(--y)}
+.svc .num{font-family:var(--h);font-weight:800;font-size:14px;color:var(--mut)}
+.svc:hover .num{color:var(--ink)}
+.svc h3{margin:0;font-family:var(--h);font-weight:800;font-size:22px;letter-spacing:-.02em;line-height:1.1}
+.svc p{margin:0;color:var(--mut);font-size:16px}
+.svc:hover p{color:var(--ink)}
+.svc .tools{font-size:13px;font-weight:600;color:var(--ink)}
+.svc .more{margin-top:auto;padding-top:8px;font-weight:700;display:inline-flex;align-items:center;gap:8px}
+
+/* antes x depois */
+.tbl{border-top:3px solid var(--ink)}
+.tr{display:flex;flex-wrap:wrap;gap:8px 32px;padding:24px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.tr.th{padding:14px 0;font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--mut)}
+.tr>:nth-child(1){flex:0 0 160px}
+.tr>:nth-child(2),.tr>:nth-child(3){flex:1 1 280px}
+.tr strong{font-family:var(--h);font-size:19px;font-weight:800}
+.tr .old{color:#6B6B6B;text-decoration:line-through;text-decoration-color:#B3B3B3}
+.tr .new{font-weight:600}
+
+.gray{background:var(--g1)}
+.steps{display:flex;flex-wrap:wrap}
+.step{flex:1 1 300px;border-left:3px solid var(--ink);padding:8px 28px 24px;display:flex;flex-direction:column;gap:10px}
+.step:last-child{border-left-color:var(--y)}
+.step .n{font-family:var(--h);font-size:48px;font-weight:800;line-height:1}
+.step strong{font-size:18px}
+.step span{color:var(--mut)}
+
+/* preços */
+.plans{display:flex;flex-wrap:wrap;gap:20px;align-items:stretch}
+.plan{flex:1 1 320px;background:#fff;border:1px solid var(--line);border-top:4px solid var(--ink);padding:30px;display:flex;flex-direction:column;gap:18px}
+.plan.hot{background:var(--y);border-color:var(--ink)}
+.plan .tag{align-self:flex-start;font-size:13px;font-weight:700;padding:5px 12px;background:var(--g1)}
+.plan.hot .tag{background:var(--ink);color:var(--y)}
+.plan h3{margin:0;font-family:var(--h);font-size:21px;font-weight:800}
+.price{font-family:var(--h);font-weight:800;font-size:30px;line-height:1.15;letter-spacing:-.02em}
+.plan.hot .price{font-size:44px}
+.plan .sub{font-size:15px;color:var(--mut)}
+.plan.hot .sub{color:#3D3300}
+.plan ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:16px}
+.plan li{display:grid;grid-template-columns:20px 1fr;gap:8px}
+.plan li svg{margin-top:5px}
+.plan .btn{margin-top:auto;width:100%}
+.train{margin-top:20px;background:var(--ink);color:#E5E5E5;padding:26px 30px;display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center;justify-content:space-between}
+.train div{flex:1 1 420px;display:flex;flex-direction:column;gap:4px}
+.train strong{font-family:var(--h);font-size:20px;color:#fff}
+.incl{margin-top:40px;display:flex;flex-wrap:wrap;gap:14px}
+.incl div{flex:1 1 220px;border-top:2px solid var(--ink);padding-top:12px;display:flex;flex-direction:column;gap:2px}
+.incl span{color:var(--mut);font-size:16px}
+
+/* sobre */
+.about{display:flex;flex-wrap:wrap;gap:56px;align-items:center}
+.about-txt{flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:22px}
+.about-txt .kick{color:var(--mut)}
+.about-txt .quote{font-size:clamp(24px,2.6vw,34px);line-height:1.12;letter-spacing:-.025em}
+.about-txt p{margin:0;color:#333}
+.creds{display:flex;flex-wrap:wrap;border-top:1px solid var(--line)}
+.creds div{flex:1 1 200px;padding:16px 16px 0 0;display:flex;flex-direction:column}
+.creds span{color:var(--mut);font-size:15px}
+.social{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;min-height:48px;font-weight:700;text-decoration:none;color:var(--ink)}
+.about .social img{flex:none;height:32px;width:auto;aspect-ratio:auto;object-fit:contain;transition:opacity .2s}
+.social:hover img{opacity:.8}
+.about img{flex:0 1 340px;width:340px;aspect-ratio:1/1;object-fit:cover}
+
+.faq{display:flex;flex-wrap:wrap;gap:32px 48px}
+.faq div{flex:1 1 320px;display:flex;flex-direction:column;gap:6px}
+.faq strong{font-size:17px}
+.faq span{color:var(--mut)}
+
+.ct{display:flex;flex-wrap:wrap;gap:40px 64px;align-items:flex-start}
+.ct-txt{flex:1 1 340px;display:flex;flex-direction:column;gap:16px}
+.ct-txt p{margin:0}
+.ct-form{flex:1 1 480px;min-width:0;display:flex;flex-direction:column;gap:16px;background:var(--g1);padding:28px;border-top:4px solid var(--ink)}
+.ct-form label{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:15px;min-width:0}
+.f2 label{flex:1 1 200px}
+.ct-form input,.ct-form select,.ct-form textarea{font:inherit;font-weight:400;font-size:16px;padding:12px 14px;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:0;width:100%}
+.ct-form input:focus,.ct-form select:focus,.ct-form textarea:focus{outline:none;border-color:var(--ink)}
+.ct-form textarea{resize:vertical;min-height:120px}
+.f2{display:flex;flex-wrap:wrap;gap:16px}
+.ct-btns{display:flex;flex-wrap:wrap;gap:12px}
+.ct-btns .btn{flex:1 1 200px}
+.ct-err{margin:0;color:#B91C1C;font-weight:600;font-size:15px}
+@media (max-width:420px){.ct-form{padding:20px}}
+.final{background:var(--y);padding-block:64px}
+.final .wrap{display:flex;flex-wrap:wrap;gap:32px;align-items:center;justify-content:space-between}
+.final h2{flex:1 1 560px;font-size:clamp(32px,4.2vw,56px);line-height:.95;letter-spacing:-.04em}
+.final .side{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.final .side span{font-weight:600}
+footer{background:var(--ink);color:var(--mut2);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-block:24px}
+
+/* ===== páginas de serviço ===== */
+.sp-hero{background:var(--ink);color:#fff;padding-block:48px 64px}
+.sp-hero .wrap{display:flex;flex-wrap:wrap;gap:40px;align-items:center}
+.sp-hero .txt{flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.back{color:var(--mut2);text-decoration:none;font-weight:600;font-size:15px;display:inline-flex;align-items:center;gap:8px;align-self:flex-start}
+.back:hover{color:var(--y)}
+.sp-hero .kick{color:var(--y)}
+.sp-hero h1{font-size:clamp(34px,4.4vw,58px);letter-spacing:-.04em;line-height:.98}
+.sp-hero p{margin:0;font-size:18px;color:var(--mut2);max-width:54ch}
+.sp-hero .vis{flex:1 1 380px;min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:#fff}
+.sp-hero .chips span{background:transparent;color:#fff;border-color:#3A3A3A}
+.ex{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.ex div{border-top:3px solid var(--ink);padding-top:16px;display:flex;flex-direction:column;gap:6px}
+.ex strong{font-family:var(--h);font-size:19px;font-weight:800;letter-spacing:-.01em}
+.ex span{color:var(--mut)}
+.tools-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.tool{background:#fff;padding:22px;display:flex;flex-direction:column;gap:6px;border:1px solid var(--line)}
+.tool strong{font-size:18px}
+.tool span{color:var(--mut);font-size:15px}
+.sp-cta{background:var(--y);padding-block:56px}
+.sp-cta .wrap{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
+.sp-cta h2{flex:1 1 480px;font-size:clamp(26px,3vw,40px);letter-spacing:-.03em;line-height:1}
+.nextnav{display:flex;flex-wrap:wrap;gap:10px}
+.nextnav a{font-weight:700;text-decoration:none;padding:10px 14px;border:1.5px solid var(--ink);min-height:44px;display:inline-flex;align-items:center}
+.nextnav a:hover{background:var(--ink);color:#fff}
+.sp-hero p.disc,.disc{font-size:12px;color:var(--mut2);margin-top:10px}
+
+/* mockups */
+.mock{background:#fff;color:var(--ink);padding:18px;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.mock .mt{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:14px;margin-bottom:12px}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.kpis div{background:var(--g1);padding:10px}
+.kpis small{display:block;font-size:11px;color:var(--mut)}
+.kpis b{font-family:var(--h);font-size:20px}
+.mbars{display:flex;align-items:flex-end;gap:8px;height:120px;border-bottom:1px solid var(--line)}
+.mbars span{flex:1;background:var(--ink);transform-origin:bottom;animation:rise 1.2s cubic-bezier(.2,.8,.2,1) both}
+.mbars span.hl{background:var(--y)}
+@keyframes rise{from{transform:scaleY(0)}}
+.wa-mock{background:#ECE5DD;padding:16px;display:flex;flex-direction:column;gap:8px;max-width:360px}
+.bub{background:#fff;padding:10px 12px;font-size:14px;line-height:1.45;max-width:92%;box-shadow:0 1px 1px rgba(0,0,0,.08);opacity:0;animation:rv .6s ease forwards}
+.bub.me{align-self:flex-end;background:#DCF8C6}
+.bub time{display:block;text-align:right;font-size:11px;color:#667}
+.flow{display:flex;flex-direction:column;gap:10px}
+.flow div{display:flex;align-items:center;gap:12px;background:#fff;color:var(--ink);padding:12px 14px;font-weight:600;font-size:15px;opacity:0;animation:rv .5s ease forwards}
+.flow div b{flex:none;width:28px;height:28px;background:var(--y);display:grid;place-items:center;font-size:13px}
+.flow div em{font-style:normal;margin-left:auto;font-size:12px;color:#166534;font-weight:700}
+.pipe{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pipe .node{background:#fff;color:var(--ink);padding:12px 14px;font-weight:700;font-size:14px;flex:1 1 90px;text-align:center}
+.pipe .node small{display:block;font-weight:500;color:var(--mut);font-size:11px}
+.pipe .lnk{flex:0 0 28px;height:2px;background:#3A3A3A;position:relative;overflow:hidden}
+.pipe .lnk::after{content:"";position:absolute;top:-2px;left:-8px;width:8px;height:6px;background:var(--y);animation:flow 1.4s linear infinite}
+@keyframes flow{to{left:100%}}
+.chat{display:flex;flex-direction:column;gap:10px}
+.chat .in{background:#fff;color:var(--ink);padding:12px 14px;font-size:14px}
+.chat .ai{background:#1A1A1A;border:1px solid #333;color:#fff;padding:12px 14px;font-size:14px;display:flex;flex-direction:column;gap:6px}
+.chat .ai .row{display:flex;gap:8px;flex-wrap:wrap}
+.chat .ai .row span{background:var(--y);color:var(--ink);font-weight:700;font-size:12px;padding:3px 8px}
+.typing{display:inline-flex;gap:4px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--mut2);animation:pulse 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+
+.fab{display:none}
+@media (max-width:900px){
+  .svcs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tools-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  .links a:not(.btn){display:none}
+  .brand{font-size:16px}
+  .links .btn{padding:10px 14px;font-size:14px}
+  section{padding-block:64px}
+  .hero-txt{padding-bottom:48px}
+  .tr>:nth-child(1){flex-basis:100%}
+  .svcs,.ex,.tools-grid{grid-template-columns:1fr}
+  .c-note{width:230px}
+  .fab{display:flex;position:fixed;right:16px;bottom:16px;z-index:30;width:60px;height:60px;border-radius:50%;background:var(--y);color:var(--ink);align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+}
+
+@media (max-width:420px){
+  .wrap{padding-inline:18px}
+  .xl{display:none}
+  .brand{font-size:13px;white-space:normal;line-height:1.15;max-width:160px}
+  .hero h1{font-size:42px}
+  .sp-hero h1{font-size:36px}
+  .btn{padding:14px 20px;font-size:16px}
+  .hero-cta .btn{width:100%}
+  .plan{padding:24px}
+  .plan.hot .price{font-size:44px}
+  .price{font-size:30px}
+  .train{padding:22px}
+  .c-note{width:min(240px,calc(100% - 8px))}
+  .kpis b{font-size:16px}
+  .pipe .lnk{display:none}
+  .pipe{gap:8px}
+  .pipe .node{flex:1 1 calc(50% - 8px)}
+}
+@media (min-width:761px) and (max-width:1024px){
+  .hero-txt{flex-basis:100%;padding-bottom:24px}
+  .photo{flex-basis:100%;padding-bottom:0}
+  .photo .fr{max-width:380px}
+  .about img{width:300px}
+  .links{gap:16px}
+}
+@media (max-height:500px) and (orientation:landscape){
+  .hero h1{font-size:40px}
+  .hero-txt{gap:18px}
+  .photo .fr{max-width:300px}
+  .sp-hero h1{font-size:36px}
+}
+.fab{bottom:calc(16px + env(safe-area-inset-bottom,0px));transition:opacity .3s,transform .3s}
+.fab.off{opacity:0;transform:translateY(20px);pointer-events:none}
+
+/* notebook e desktop: topo cabe na primeira tela, foto inteira */
+@media (min-width:1025px){
+  :root{--ph:max(320px,min(500px,calc(100vh - 250px)))}
+  .ph-cap{width:calc(var(--ph) * .8 + 24px);max-width:none;padding-bottom:0}
+  .hero .wrap{align-items:center;padding-block:40px 48px;flex-wrap:nowrap}
+  .hero-txt{padding-bottom:0;gap:20px}
+  .photo{flex:0 0 auto}
+  .photo .fr{width:calc(var(--ph) * .8 + 24px);max-width:none}
+  .photo img{height:var(--ph);width:100%}
+  .photo .fr::before{top:40px;bottom:-16px}
+}
+@media (min-width:1025px) and (max-height:700px){
+  .hero h1{font-size:clamp(38px,4vw,54px)}
+  .hero-txt{gap:16px}
+  .hero p.lede{font-size:17px}
+  .stats{padding-top:14px}
+}
+
+/* ícones nos cartões */
+.svc-top{display:flex;justify-content:space-between;align-items:center}
+.svc-ic{width:48px;height:48px;display:grid;place-items:center;background:var(--ink);color:var(--y);transition:background .2s,color .2s}
+.svc:hover .svc-ic{background:var(--ink);color:#fff}
+
+/* explicadores animados */
+.xp{background:#121212;border:1px solid #262626;padding:22px;display:flex;flex-direction:column;gap:18px}
+.xp-flow{display:flex;align-items:flex-start}
+.xp-node{flex:none;display:flex;flex-direction:column;align-items:center;gap:8px;background:none;border:0;padding:0;cursor:pointer;color:#8A8A8A;width:72px}
+.xp-ic{width:60px;height:60px;display:grid;place-items:center;background:#1A1A1A;border:1.5px solid #333;color:#9A9A9A;transition:background .35s,color .35s,border-color .35s,transform .35s,box-shadow .35s}
+.xp-lb{font-size:12px;font-weight:600;text-align:center;line-height:1.25;transition:color .35s}
+.xp-node.done .xp-ic{border-color:var(--y);color:var(--y)}
+.xp-node.done .xp-lb{color:#CFCFCF}
+.xp-node.on .xp-ic{background:var(--y);border-color:var(--y);color:var(--ink);transform:scale(1.08);box-shadow:0 0 0 6px rgba(255,210,63,.15)}
+.xp-node.on .xp-lb{color:#fff}
+.xp-node:focus-visible .xp-ic{outline:3px solid #fff;outline-offset:2px}
+.xp-wire{flex:1;height:2px;background:#333;margin-top:30px;position:relative;overflow:hidden;min-width:14px}
+.xp-wire i{position:absolute;inset:0;background:var(--y);transform:scaleX(0);transform-origin:left;transition:transform .6s ease}
+.xp-wire.done i{transform:scaleX(1)}
+.xp-wire.go::after{content:"";position:absolute;top:-2px;left:-10px;width:10px;height:6px;background:#fff;border-radius:3px;animation:flow .9s linear infinite}
+.xp-cap{min-height:64px;display:flex;flex-direction:column;gap:2px;border-left:3px solid var(--y);padding-left:14px;transition:opacity .25s}
+.xp-cap.fade{opacity:0}
+.xp-n{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--y);text-transform:uppercase}
+.xp-t{font-size:16px;color:#E5E5E5;line-height:1.5}
+.xp-out{position:relative;opacity:.28;filter:grayscale(1);transition:opacity .5s,filter .5s}
+.xp-out.show{opacity:1;filter:none}
+.xp-rl{display:block;font-size:11px;font-weight:700;letter-spacing:.12em;color:#8A8A8A;margin-bottom:8px}
+.xp-out.show .xp-rl{color:var(--y)}
+.xp .mock{box-shadow:none}
+.xp .wa-mock{max-width:none}
+.rowin{opacity:0;animation:rv .5s ease forwards}
+.xp-out:not(.show) .rowin,.xp-out:not(.show) .bub,.xp-out:not(.show) .flow div{animation:none;opacity:1;transform:none}
+.xp-out:not(.show) .mbars span{animation:none}
+.type-box{background:#fff;color:var(--ink);padding:14px;display:flex;flex-direction:column;gap:12px;font-size:14px}
+.tb-q,.tb-a{display:flex;flex-direction:column;gap:4px}
+.tb-who{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--mut)}
+.tb-a{border-top:1px solid var(--line);padding-top:10px}
+.resp{font-weight:600}
+.caret{display:inline-block;width:2px;height:16px;background:var(--ink);vertical-align:middle;animation:pulse 1s steps(1) infinite}
+.tb-q{display:block}
+.tb-q .tb-who{display:block;margin-bottom:4px}
+.qtable{background:#fff;color:var(--ink);font-size:14px}
+.qtable div{display:grid;grid-template-columns:1fr 1.4fr auto;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);align-items:center}
+.qtable div:last-child{border-bottom:0}
+.qtable span:first-child{font-weight:700;font-family:ui-monospace,Menlo,monospace;font-size:13px}
+.qtable span:nth-child(2){color:var(--mut)}
+.okb,.wb{font-style:normal;font-size:12px;font-weight:700;padding:3px 8px}
+.okb{background:#DCFCE7;color:#166534}
+.wb{background:#FEF3C7;color:#92400E}
+@media (max-width:420px){
+  .xp{padding:16px}
+  .xp-node{width:58px}
+  .xp-ic{width:50px;height:50px}
+  .xp-ic svg{width:24px;height:24px}
+  .xp-wire{margin-top:25px;min-width:8px}
+  .xp-lb{font-size:11px}
+  .qtable div{grid-template-columns:1fr auto}
+  .qtable span:nth-child(2){display:none}
+}
+.mailrow{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}
+.mail{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-weight:600;color:var(--ink);text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.copy{min-height:44px;padding:8px 14px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-weight:700;font-size:13px;cursor:pointer}
+.copy:hover{background:var(--ink);color:#fff}
+footer a{overflow-wrap:anywhere}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .hero h1 .ln>span,.reveal,.bub,.flow div{transform:none;opacity:1}
+  .hero-line path{stroke-dashoffset:0}.hero-line .area{opacity:1}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="wa" viewBox="0 0 24 24"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/></g></symbol><symbol id="i-sheet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></g></symbol><symbol id="i-users" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c.6-3.3 3-5 6-5s5.4 1.7 6 5"/><path d="M16 4.6a3 3 0 0 1 0 6"/><path d="M18 14.6c1.7.6 2.8 2.3 3 5.4"/></g></symbol><symbol id="i-sync" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-14.3 4.9"/><path d="M4 12a8 8 0 0 1 14.3-4.9"/><path d="M18.6 3v4.3h-4.3"/><path d="M5.4 21v-4.3h4.3"/></g></symbol><symbol id="i-monitor" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M6 13l3.5-3.5 3 2.5L18 7"/></g></symbol><symbol id="i-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></g></symbol><symbol id="i-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></g></symbol><symbol id="i-doc" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 11h6M9 15h6M9 19h4"/></g></symbol><symbol id="i-send" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></g></symbol><symbol id="i-browser" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20"/><path d="M5.5 6.5h.01M8 6.5h.01M10.5 6.5h.01"/></g></symbol><symbol id="i-download" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 20h16"/></g></symbol><symbol id="i-bellx" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16v-5a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 21h4"/></g></symbol><symbol id="i-inbox" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></g></symbol><symbol id="i-chip" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/><path d="M12 9.2l.9 1.9 1.9.9-1.9.9-.9 1.9-.9-1.9-1.9-.9 1.9-.9z"/></g></symbol><symbol id="i-tag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.4"/></g></symbol><symbol id="i-route" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4l5 5-5 5"/><path d="M20 9H9a5 5 0 0 0-5 5v6"/></g></symbol><symbol id="i-present" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="13" rx="1.5"/><path d="M12 16v5M8 21h8"/><path d="M7 12l3-3 2 2 4-4"/></g></symbol><symbol id="i-chat" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.8 7L4 20l1.1-4.4A8 8 0 1 1 21 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></g></symbol><symbol id="i-term" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 9l3 3-3 3"/><path d="M12 15h6"/></g></symbol><symbol id="i-bulb" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></g></symbol><symbol id="i-layers" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l10 5-10 5L2 7z"/><path d="M2 12l10 5 10-5"/><path d="M2 17l10 5 10-5"/></g></symbol><symbol id="i-filter" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/></g></symbol><symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></g></symbol><symbol id="i-robot" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2.5"/><path d="M12 4v4"/><circle cx="12" cy="3" r="1"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/><path d="M9.5 17h5"/><path d="M2 13v3M22 13v3"/></g></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></g></symbol>
+  <symbol id="bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4zM10 21h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#topo">CONSULTORIA DE DADOS E IA</a>
+    <div class="links">
+      <a href="#servicos">Serviços</a>
+      <a href="#metodo">Método</a>
+      <a href="#precos">Como contratar</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contato">Contato</a>
+      <a class="btn y" data-wa="Olá Kleiton! Vi sua página e quero agendar a conversa de 20 minutos." href="#">Agendar<span class="xl"> conversa</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HOME ================= -->
+<main id="home">
+<header class="hero" id="topo">
+  <div class="hero-bg"></div>
+  <div class="wrap">
+    <div class="hero-txt">
+      <p class="kick reveal">DADOS · AUTOMAÇÃO · AGENTES DE IA</p>
+      <h1 class="h"><span class="ln"><span>Transformando dados</span></span><span class="ln"><span>em <em>resultados.</em></span></span></h1>
+      <p class="lede reveal d1">Experiência em grandes operações do varejo aplicada à realidade da sua empresa: painéis confiáveis, relatórios que chegam sozinhos, automações e agentes de IA na rotina.</p>
+      <div class="hero-cta reveal d2">
+        <a class="btn y" data-wa="Olá Kleiton! Vi sua página e quero agendar a conversa de 20 minutos sobre a entrega gratuita." href="#">Agendar conversa de 20 min <svg width="18" height="18"><use href="#arrow"/></svg></a>
+        <a class="btn o" href="#servicos">Ver serviços</a>
+      </div>
+      <div class="stats reveal d3">
+        <div><b>6 anos</b><span>construindo soluções de dados</span></div>
+        <div><b>2 a 3 semanas</b><span>para a primeira entrega</span></div>
+        <div><b>Piloto grátis</b><span>vagas limitadas</span></div>
+      </div>
+    </div>
+    <div class="photo">
+      <div class="fr">
+        <img src="foto.jpg" alt="Kleiton Santos de braços cruzados" fetchpriority="high">
+      </div>
+      <div class="ph-cap"><strong>Kleiton Santos</strong><span>Especialista de Dados e IA</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="band" aria-label="Serviços">
+  <div class="track" id="track">
+    <a href="#dashboards">Dashboards</a><a href="#relatorios">Relatórios automáticos</a><a href="#automacao">Automação e RPA</a><a href="#agentes-ia">Agentes de IA</a><a href="#treinamento">Treinamento em IA</a><a href="#treinamento">Claude Code no trabalho</a><a href="#engenharia">Engenharia de dados</a>
+  </div>
+</div>
+
+<section id="servicos">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h">O que eu faço pela sua empresa</h2>
+      <p>Clique em um serviço para ver exemplos reais de uso e as ferramentas que eu trabalho.</p>
+    </div>
+    <div class="svcs">
+      <a class="svc" href="#dashboards"><span class="svc-top"><span class="svc-ic"><svg width="26" height="26" aria-hidden="true"><use href="#i-monitor"/></svg></span><span class="num">01</span></span><h3>Dashboards e BI</h3><p>Vendas, estoque, financeiro e operação num painel que se atualiza sozinho.</p><span class="tools">Power BI · Looker Studio · Tableau</span><span class="more">Ver exemplos <svg width="16" height="16"><use href="#arrow"/></svg></span></a>
+      <a class="svc" href="#relatorios"><span class="svc-top"><span class="svc-ic"><svg width="26" height="26" aria-hidden="true"><use href="#i-doc"/></svg></span><span class="num">02</span></span><h3>Relatórios automáticos</h3><p>O relatório da semana chegando pronto no e-mail ou WhatsApp, no horário certo.</p><span class="tools">Python · Apps Script · BigQuery</span><span class="more">Ver exemplos <svg width="16" height="16"><use href="#arrow"/></svg></span></a>
+      <a class="svc" href="#automacao"><span class="svc-top"><span class="svc-ic"><svg width="26" height="26" aria-hidden="true"><use href="#i-robot"/></svg></span><span class="num">03</span></span><h3>Automação e RPA</h3><p>Robôs para o copiar e colar entre sistemas, portais e planilhas.</p><span class="tools">Python · Playwright · Power Automate</span><span class="more">Ver exemplos <svg width="16" height="16"><use href="#arrow"/></svg></span></a>
+      <a class="svc" href="#agentes-ia"><span class="svc-top"><span class="svc-ic"><svg width="26" height="26" aria-hidden="true"><use href="#i-chip"/></svg></span><span class="num">04</span></span><h3>Agentes de IA</h3><p>IA que lê documentos, classifica e-mails e pedidos e apoia o atendimento.</p><span class="tools">ChatGPT · Gemini · Claude</span><span class="more">Ver exemplos <svg width="16" height="16"><use href="#arrow"/></svg></span></a>
+      <a class="svc" href="#treinamento"><span class="svc-top"><span class="svc-ic"><svg width="26" height="26" aria-hidden="true"><use href="#i-bulb"/></svg></span><span class="num">05</span></span><h3>Treinamento em IA</h3><p>Aula prática para o time usar IA no dia a dia, incluindo o Claude Code para tarefas do trabalho.</p><span class="tools">ChatGPT · Gemini · Claude Code</span><span class="more">Ver exemplos <svg width="16" height="16"><use href="#arrow"/></svg></span></a>
+      <a class="svc" href="#engenharia"><span class="svc-top"><span class="svc-ic"><svg width="26" height="26" aria-hidden="true"><use href="#i-layers"/></svg></span><span class="num">06</span></span><h3>Engenharia de dados</h3><p>ERP, CRM e planilhas reunidos numa base única, confiável e pronta para crescer.</p><span class="tools">BigQuery · dbt · Databricks</span><span class="more">Ver exemplos <svg width="16" height="16"><use href="#arrow"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<section class="gray">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h">Antes e depois do projeto</h2>
+      <p>Exemplos do tipo de mudança que um primeiro projeto entrega. Cada empresa começa pelo processo que mais dói.</p>
+    </div>
+    <div class="tbl">
+      <div class="tr th"><span>PROCESSO</span><span>ANTES</span><span>DEPOIS</span></div>
+      <div class="tr"><strong>Vendas</strong><span class="old">Planilha montada à mão toda segunda, com números diferentes em cada área</span><span class="new">Painel único, atualizado todo dia antes das 8h</span></div>
+      <div class="tr"><strong>Relatórios</strong><span class="old">Um dia por semana copiando dados de sistemas e portais</span><span class="new">Relatório chegando sozinho no e-mail ou WhatsApp</span></div>
+      <div class="tr"><strong>Atendimento</strong><span class="old">E-mails e pedidos lidos e separados um a um</span><span class="new">Agente de IA que classifica e encaminha para a pessoa certa</span></div>
+      <div class="tr"><strong>Time</strong><span class="old">Ninguém sabe por onde começar a usar IA</span><span class="new">Time treinado, usando IA em tarefas do dia a dia</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="metodo">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="h">O método em 3 semanas</h2></div>
+    <div class="steps">
+      <div class="step"><span class="n">01</span><strong>Diagnóstico</strong><span>Conversa de 20 minutos, acesso aos dados combinado por escrito e escopo fechado.</span></div>
+      <div class="step"><span class="n">02</span><strong>Construção</strong><span>Monto a solução com o que a empresa já usa e mostro o andamento a cada etapa.</span></div>
+      <div class="step"><span class="n">03</span><strong>Entrega e uso</strong><span>Entrego funcionando e ensino o time a usar. Você avalia o resultado.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="gray" id="precos">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h">Proposta sob medida. Escopo por escrito.</h2>
+      <p>Cada projeto é orçado de acordo com o escopo. Você recebe a proposta com valor fechado antes de começar. Não sabe qual escolher? Comece pelo piloto gratuito.</p>
+    </div>
+    <div class="plans">
+      <div class="plan hot">
+        <span class="tag">COMECE AQUI · VAGAS LIMITADAS</span>
+        <div><h3>Piloto</h3><div class="price">Grátis</div><span class="sub">vagas limitadas · sem compromisso</span></div>
+        <ul>
+          <li><svg width="14" height="14"><use href="#ok"/></svg><span>1 processo escolhido por você</span></li>
+          <li><svg width="14" height="14"><use href="#ok"/></svg><span>Dashboard, relatório, automação ou agente de IA</span></li>
+          <li><svg width="14" height="14"><use href="#ok"/></svg><span>Entrega em 2 a 3 semanas</span></li>
+          <li><svg width="14" height="14"><use href="#ok"/></svg><span>Escopo combinado por escrito</span></li>
+        </ul>
+        <a class="btn k" data-wa="Olá Kleiton! Quero o piloto gratuito para a minha empresa." href="#">Quero o piloto gratuito</a>
+      </div>
+      <div class="plan">
+        <span class="tag">PROJETO FECHADO</span>
+        <div><h3>Projeto</h3><div class="price">Sob consulta</div><span class="sub">valor fechado por escopo, após a conversa inicial</span></div>
+        <ul>
+          <li><svg width="14" height="14"><use href="#ok"/></svg><span>Solução sob medida para a sua operação</span></li>
+          <li><svg width="14" height="14"><use href="#ok"/></svg><span>Integração com ERP, planilhas e sistemas</span></li>
+          <li><svg width="14" height="14"><use href="#ok"/></svg><span>Entrega por etapas, com acompanhamento</span></li>
+          <li><svg width="14" height="14"><use href="#ok"/></svg><span>Documentação e treinamento do time</span></li>
+        </ul>
+        <a class="btn k" data-wa="Olá Kleiton! Quero um orçamento de projeto." href="#">Pedir orçamento</a>
+      </div>
+      <div class="plan">
+        <span class="tag">CONTÍNUO</span>
+        <div><h3>Acompanhamento</h3><div class="price">Sob consulta</div><span class="sub">plano mensal ajustado à demanda · sem fidelidade longa</span></div>
+        <ul>
+          <li><svg width="14" height="14"><use href="#ok"/></svg><span>Manutenção do que já foi entregue</span></li>
+          <li><svg width="14" height="14"><use href="#ok"/></svg><span>Novos relatórios e melhorias todo mês</span></li>
+          <li><svg width="14" height="14"><use href="#ok"/></svg><span>Reunião mensal de resultados</span></li>
+          <li><svg width="14" height="14"><use href="#ok"/></svg><span>Prioridade no atendimento</span></li>
+        </ul>
+        <a class="btn k" data-wa="Olá Kleiton! Quero saber mais sobre o acompanhamento mensal." href="#">Quero saber mais</a>
+      </div>
+    </div>
+    <div class="train">
+      <div><strong>Treinamento de IA para equipes</strong><span>Aula ao vivo e online de 1h30 a 2h, com exemplos do seu setor. Inclui ChatGPT, Gemini e Claude Code. Valor combinado conforme o tamanho da turma. A primeira turma pode ser o seu piloto gratuito.</span></div>
+      <a class="btn y" href="#treinamento">Ver o treinamento</a>
+    </div>
+    <div class="incl">
+      <div><strong>Escopo por escrito</strong><span>O que entra, o que não entra e o prazo.</span></div>
+      <div><strong>Confidencialidade e LGPD</strong><span>Termo assinado e dados usados só no projeto.</span></div>
+      <div><strong>100% online</strong><span>Atendo empresas de qualquer cidade.</span></div>
+      <div><strong>Linguagem simples</strong><span>Sem tecniquês nas reuniões e nos relatórios.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="sobre">
+  <div class="wrap about">
+    <div class="about-txt">
+      <p class="kick">SOBRE</p>
+      <p class="h quote">Dados e IA de grande empresa, no tamanho da sua.</p>
+      <p>Sou Kleiton Santos, Especialista de Dados e IA, com 6 anos de experiência construindo soluções de dados em grandes empresas do varejo, passando por logística, vendas, estoque, entregas, serviços financeiros, meios de pagamento, atendimento e produto. Crio pipelines, modelos de dados e dashboards que apoiam decisões todos os dias, além de desenhar e implementar agentes inteligentes que automatizam tarefas repetitivas e processos manuais, liberando o time para o que realmente gera resultado. Na consultoria, levo esse mesmo padrão para empresas de todo o Brasil, com projetos enxutos e linguagem simples.</p>
+      <div class="creds">
+        <div><strong>6 anos</strong><span>construindo soluções de dados</span></div>
+        <div><strong>MBA em Data Science, Artificial Intelligence and Analytics</strong><span>USP/Esalq</span></div>
+        <div><strong>Engenheiro de Produção</strong><span>UESC</span></div>
+        <div><strong>Google Cloud</strong><span>BigQuery · Python · SQL</span></div>
+      </div>
+      <a class="social" href="https://www.linkedin.com/in/kleitonsantos99/" target="_blank" rel="noopener" aria-label="Abrir meu perfil no LinkedIn"><img src="linkedin.png" alt="LinkedIn" width="130" height="32"></a>
+    </div>
+    <img src="foto-sobre.jpg" alt="Kleiton Santos sorrindo" loading="lazy">
+  </div>
+</section>
+
+<section class="gray">
+  <div class="wrap faq">
+    <div><strong>Qual a pegadinha do gratuito?</strong><span>Nenhuma. Peço uma avaliação sincera e, se você autorizar, citar o resultado como case.</span></div>
+    <div><strong>Como é definido o preço do projeto?</strong><span>Pelo escopo: quantas fontes de dados, quantos relatórios ou automações e o prazo. Você recebe o valor fechado antes de começar.</span></div>
+    <div><strong>Quais as formas de pagamento?</strong><span>As condições são combinadas na proposta, de acordo com o projeto.</span></div>
+    <div><strong>Preciso de algum sistema?</strong><span>Não. Trabalho com ERP, planilhas, e-mails e o que a empresa já usa.</span></div>
+    <div><strong>E os meus dados?</strong><span>Termo de confidencialidade e uso só para o projeto, de acordo com a LGPD.</span></div>
+    <div><strong>Prefere falar por e-mail?</strong><span>Pode escrever para <a href="mailto:de.kleiton.santos@gmail.com" style="font-weight:600">de.kleiton.santos@gmail.com</a>. Respondo em até 1 dia útil.</span></div>
+    <div><strong>E depois do piloto?</strong><span>Se fizer sentido, apresento uma proposta de projeto ou acompanhamento. Se não, sem problema.</span></div>
+  </div>
+</section>
+
+<section id="contato">
+  <div class="wrap ct">
+    <div class="ct-txt">
+      <p class="kick" style="color:var(--mut)">CONTATO</p>
+      <h2 class="h" style="font-size:clamp(30px,3.4vw,46px)">Conte o que você precisa.</h2>
+      <p>Preencha os campos e escolha como prefere enviar: por e-mail ou pelo WhatsApp. A mensagem já sai pronta, é só confirmar o envio.</p>
+      <p style="color:var(--mut)">Respondo em até 1 dia útil.</p>
+    </div>
+    <form class="ct-form" id="ctForm" novalidate>
+      <div class="f2">
+        <label>Nome<input name="nome" required autocomplete="name"></label>
+        <label>Empresa<input name="empresa" autocomplete="organization"></label>
+      </div>
+      <label>Assunto
+        <select name="assunto">
+          <option>Piloto gratuito</option><option>Dashboards e BI</option><option>Relatórios automáticos</option><option>Automação e RPA</option><option>Agentes de IA</option><option>Treinamento em IA</option><option>Engenharia de dados</option><option>Outro assunto</option>
+        </select>
+      </label>
+      <label>Mensagem<textarea name="msg" rows="5" required placeholder="Ex.: Quero automatizar o relatório de vendas que montamos toda segunda."></textarea></label>
+      <p class="ct-err" id="ctErr" hidden>Preencha seu nome e a mensagem.</p>
+      <div class="ct-btns">
+        <button type="submit" class="btn k" data-via="email"><svg width="20" height="20" aria-hidden="true"><use href="#i-mail"/></svg>Enviar por e-mail</button>
+        <button type="submit" class="btn y" data-via="wa"><svg width="20" height="20" aria-hidden="true"><use href="#wa"/></svg>Enviar pelo WhatsApp</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<div class="final">
+  <div class="wrap">
+    <h2 class="h">Comece pelo piloto gratuito. Decida depois.</h2>
+    <div class="side">
+      <a class="btn k" data-wa="Olá Kleiton! Vi sua página e quero uma das vagas do piloto gratuito." href="#"><svg width="20" height="20"><use href="#wa"/></svg>Quero uma das vagas</a>
+      <span>WhatsApp (27) 98133-0439</span>
+      <div class="mailrow"><a class="mail" href="mailto:de.kleiton.santos@gmail.com?subject=Contato%20pelo%20site"><svg width="18" height="18" aria-hidden="true"><use href="#i-mail"/></svg>de.kleiton.santos@gmail.com</a><button type="button" class="copy" data-copy="de.kleiton.santos@gmail.com">Copiar e-mail</button></div>
+    </div>
+  </div>
+</div>
+</main>
+
+<!-- ================= DASHBOARDS ================= -->
+<main class="sp" id="pg-dashboards" hidden>
+  <div class="sp-hero"><div class="wrap">
+    <div class="txt">
+      <a class="back" href="#servicos"><svg width="16" height="16"><use href="#back"/></svg>Todos os serviços</a>
+      <p class="kick">01 · DASHBOARDS E BI</p>
+      <h1 class="h">Os números do seu negócio num painel só.</h1>
+      <p>Junto os dados do ERP, das planilhas e dos sistemas e monto um painel claro, que se atualiza sozinho. Todo mundo olha o mesmo número, todo dia.</p>
+      <div class="chips"><span>Power BI</span><span>Looker Studio</span><span>Tableau</span><span>BigQuery</span><span>Google Sheets</span><span>Excel</span></div>
+    </div>
+    <div class="vis"><div class="xp" data-caps="[&quot;Hoje os dados estão espalhados: ERP, planilhas, CRM e sistemas que não conversam.&quot;, &quot;Eu conecto tudo numa base só e ela se atualiza sozinha, todos os dias.&quot;, &quot;Os números viram um painel claro no Power BI, Looker Studio ou Tableau.&quot;, &quot;Resultado: o time inteiro decide olhando o mesmo número, sem montar planilha.&quot;]"><div class="xp-flow"><button type="button" class="xp-node" data-i="0" aria-label="Passo 1: Fontes"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-db"/></svg></span><span class="xp-lb">Fontes</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="1" aria-label="Passo 2: Integração"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-sync"/></svg></span><span class="xp-lb">Integração</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="2" aria-label="Passo 3: Painel"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-monitor"/></svg></span><span class="xp-lb">Painel</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="3" aria-label="Passo 4: Decisão"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-target"/></svg></span><span class="xp-lb">Decisão</span></button></div><div class="xp-cap" aria-live="polite"><span class="xp-n">Passo 1 de 4</span><span class="xp-t">Hoje os dados estão espalhados: ERP, planilhas, CRM e sistemas que não conversam.</span></div><div class="xp-out"><span class="xp-rl">RESULTADO · PAINEL ATUALIZADO</span><div class="mock"><div class="mt">Painel comercial · Novembro <span class="live"><i></i>ao vivo</span></div><div class="kpis"><div><small>Faturamento</small><b>R$ 482 mil</b></div><div><small>Ticket médio</small><b>R$ 187</b></div><div><small>Meta</small><b>91%</b></div></div><div class="mbars"><span style="height:42%;animation-delay:0.1s"></span><span style="height:58%;animation-delay:0.2s"></span><span style="height:51%;animation-delay:0.3s"></span><span style="height:73%;animation-delay:0.4s"></span><span style="height:66%;animation-delay:0.5s"></span><span style="height:88%;animation-delay:0.6s" class="hl"></span><span style="height:79%;animation-delay:0.7s"></span></div></div></div></div><p class="disc">Exemplo ilustrativo com dados fictícios. Clique nos passos para navegar.</p></div>
+  </div></div>
+  <section><div class="wrap">
+    <div class="sec-head"><h2 class="h">Exemplos de painéis</h2><p>Cada painel nasce de uma pergunta que alguém faz toda semana e hoje demora para responder.</p></div>
+    <div class="ex">
+      <div><strong>Painel de vendas</strong><span>Faturamento por vendedor, loja e rota, meta contra realizado e clientes que pararam de comprar.</span></div>
+      <div><strong>Painel financeiro</strong><span>DRE gerencial, fluxo de caixa, contas a pagar e a receber e despesas por centro de custo.</span></div>
+      <div><strong>Painel de estoque</strong><span>Giro por produto, itens parados, alerta de ruptura e cobertura em dias.</span></div>
+      <div><strong>Painel de atendimento</strong><span>Volume de chamados, tempo de resposta, motivos mais comuns e satisfação.</span></div>
+    </div>
+  </div></section>
+  <section class="gray"><div class="wrap">
+    <div class="sec-head"><h2 class="h">Qual ferramenta usar?</h2><p>Eu recomendo pela realidade da empresa, não por moda. Muitas vezes a melhor opção é a que você já paga.</p></div>
+    <div class="tools-grid">
+      <div class="tool"><strong>Looker Studio</strong><span>Gratuito e do Google. Ótimo para quem já usa Google Sheets, Google Ads ou BigQuery.</span></div>
+      <div class="tool"><strong>Power BI</strong><span>Da Microsoft. Combina com empresas que vivem no Excel e no Microsoft 365.</span></div>
+      <div class="tool"><strong>Tableau</strong><span>Forte para análises visuais mais avançadas e grandes volumes de dados.</span></div>
+    </div>
+  </div></section>
+</main>
+
+<!-- ================= RELATÓRIOS ================= -->
+<main class="sp" id="pg-relatorios" hidden>
+  <div class="sp-hero"><div class="wrap">
+    <div class="txt">
+      <a class="back" href="#servicos"><svg width="16" height="16"><use href="#back"/></svg>Todos os serviços</a>
+      <p class="kick">02 · RELATÓRIOS AUTOMÁTICOS</p>
+      <h1 class="h">O relatório chega sozinho. Ninguém monta.</h1>
+      <p>Aquele relatório que alguém leva horas para montar toda semana passa a ser gerado e enviado automaticamente, no horário combinado, por e-mail, WhatsApp ou Slack.</p>
+      <div class="chips"><span>Python</span><span>Google Apps Script</span><span>BigQuery</span><span>E-mail</span><span>WhatsApp</span><span>Slack</span></div>
+    </div>
+    <div class="vis"><div class="xp" data-caps="[&quot;Todo dia às 8h, ou no horário que você definir, o processo começa sozinho.&quot;, &quot;O robô busca os dados atualizados no sistema, no ERP ou nas planilhas.&quot;, &quot;Os números são calculados e o relatório é montado no formato combinado.&quot;, &quot;Resultado: o relatório chega pronto no WhatsApp, e-mail ou Slack de quem precisa.&quot;]"><div class="xp-flow"><button type="button" class="xp-node" data-i="0" aria-label="Passo 1: Horário"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-clock"/></svg></span><span class="xp-lb">Horário</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="1" aria-label="Passo 2: Coleta"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-db"/></svg></span><span class="xp-lb">Coleta</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="2" aria-label="Passo 3: Relatório"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-doc"/></svg></span><span class="xp-lb">Relatório</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="3" aria-label="Passo 4: Envio"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-send"/></svg></span><span class="xp-lb">Envio</span></button></div><div class="xp-cap" aria-live="polite"><span class="xp-n">Passo 1 de 4</span><span class="xp-t">Todo dia às 8h, ou no horário que você definir, o processo começa sozinho.</span></div><div class="xp-out"><span class="xp-rl">RESULTADO · 08:00 NO WHATSAPP</span><div class="wa-mock"><div class="bub" style="animation-delay:.1s"><b>Bom dia! Vendas de ontem</b><br>Faturamento: R$ 18.420 (+6% vs. meta)<br>Melhor loja: Centro · 3 produtos em ruptura<time>08:00</time></div><div class="bub me" style="animation-delay:.8s">Show, já vi aqui. Obrigado!<time>08:04</time></div></div></div></div><p class="disc">Exemplo ilustrativo com dados fictícios. Clique nos passos para navegar.</p></div>
+  </div></div>
+  <section><div class="wrap">
+    <div class="sec-head"><h2 class="h">Exemplos de relatórios automáticos</h2><p>Se o relatório segue sempre o mesmo passo a passo, dá para automatizar.</p></div>
+    <div class="ex">
+      <div><strong>Fechamento diário de vendas</strong><span>Resumo do dia anterior às 8h no WhatsApp da diretoria e dos gerentes.</span></div>
+      <div><strong>Inadimplência da semana</strong><span>Lista de clientes em atraso enviada ao financeiro toda segunda.</span></div>
+      <div><strong>Alerta de estoque baixo</strong><span>Aviso assim que um produto importante passa do nível mínimo.</span></div>
+      <div><strong>Relatório mensal em PDF</strong><span>Indicadores do mês formatados e enviados por e-mail no primeiro dia útil.</span></div>
+    </div>
+  </div></section>
+</main>
+
+<!-- ================= AUTOMAÇÃO ================= -->
+<main class="sp" id="pg-automacao" hidden>
+  <div class="sp-hero"><div class="wrap">
+    <div class="txt">
+      <a class="back" href="#servicos"><svg width="16" height="16"><use href="#back"/></svg>Todos os serviços</a>
+      <p class="kick">03 · AUTOMAÇÃO E RPA</p>
+      <h1 class="h">Robôs fazem o copiar e colar. O time faz o resto.</h1>
+      <p>Tarefas repetitivas entre sistemas, portais e planilhas passam a rodar sozinhas, com registro de cada etapa e aviso quando algo foge do normal.</p>
+      <div class="chips"><span>Python</span><span>Playwright</span><span>Google Apps Script</span><span>Power Automate</span><span>Cloud Functions</span><span>APIs</span></div>
+    </div>
+    <div class="vis"><div class="xp" data-caps="[&quot;O robô entra no portal do fornecedor, banco ou marketplace com acesso seguro.&quot;, &quot;Baixa os arquivos do dia, sem ninguém precisar clicar em nada.&quot;, &quot;Confere cada linha com o ERP e atualiza a planilha do time.&quot;, &quot;Resultado: você só recebe aviso do que deu diferença. O resto já está feito.&quot;]"><div class="xp-flow"><button type="button" class="xp-node" data-i="0" aria-label="Passo 1: Portal"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-browser"/></svg></span><span class="xp-lb">Portal</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="1" aria-label="Passo 2: Download"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-download"/></svg></span><span class="xp-lb">Download</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="2" aria-label="Passo 3: Conferência"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-sheet"/></svg></span><span class="xp-lb">Conferência</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="3" aria-label="Passo 4: Aviso"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-bellx"/></svg></span><span class="xp-lb">Aviso</span></button></div><div class="xp-cap" aria-live="polite"><span class="xp-n">Passo 1 de 4</span><span class="xp-t">O robô entra no portal do fornecedor, banco ou marketplace com acesso seguro.</span></div><div class="xp-out"><span class="xp-rl">RESULTADO · ROTINA DAS 6H</span><div class="flow"><div style="animation-delay:.05s"><b>1</b>Relatório baixado do portal<em>✓ 06:02</em></div><div style="animation-delay:.35s"><b>2</b>148 pedidos conferidos com o ERP<em>✓ 06:03</em></div><div style="animation-delay:.65s"><b>3</b>Planilha do time atualizada<em>✓ 06:03</em></div><div style="animation-delay:.95s"><b>4</b>2 divergências avisadas no WhatsApp<em>✓ 06:04</em></div></div></div></div><p class="disc">Exemplo ilustrativo com dados fictícios. Clique nos passos para navegar.</p></div>
+  </div></div>
+  <section><div class="wrap">
+    <div class="sec-head"><h2 class="h">Exemplos de automação</h2><p>Bons candidatos: tarefas que alguém faz todo dia, sempre do mesmo jeito.</p></div>
+    <div class="ex">
+      <div><strong>Download diário de portais</strong><span>Robô entra no portal do fornecedor, banco ou marketplace e baixa os arquivos.</span></div>
+      <div><strong>Conciliação entre sistemas</strong><span>Confere pedidos, notas e pagamentos e aponta só as divergências.</span></div>
+      <div><strong>Planilha preenchida sozinha</strong><span>Dados de e-mails, formulários e sistemas organizados automaticamente.</span></div>
+      <div><strong>Integração ERP + planilhas</strong><span>Informações sincronizadas sem ninguém exportar e importar arquivos.</span></div>
+    </div>
+  </div></section>
+</main>
+
+<!-- ================= AGENTES DE IA ================= -->
+<main class="sp" id="pg-agentes-ia" hidden>
+  <div class="sp-hero"><div class="wrap">
+    <div class="txt">
+      <a class="back" href="#servicos"><svg width="16" height="16"><use href="#back"/></svg>Todos os serviços</a>
+      <p class="kick">04 · AGENTES DE IA</p>
+      <h1 class="h">Um agente de IA trabalhando para o seu time.</h1>
+      <p>Crio agentes que leem e-mails, documentos e fotos, classificam, extraem informações e encaminham para a pessoa certa, com regras de controle para a IA não sair do trilho.</p>
+      <div class="chips"><span>ChatGPT / OpenAI</span><span>Gemini</span><span>Claude</span><span>Google Workspace</span><span>OCR</span><span>APIs</span></div>
+    </div>
+    <div class="vis"><div class="xp" data-caps="[&quot;Chegam e-mails, documentos, fotos e pedidos, todos misturados.&quot;, &quot;O agente de IA lê cada um e entende o assunto, a urgência e os dados importantes.&quot;, &quot;Classifica e extrai as informações seguindo regras de controle definidas por você.&quot;, &quot;Resultado: cada item vai para a pessoa certa e fica registrado na planilha.&quot;]"><div class="xp-flow"><button type="button" class="xp-node" data-i="0" aria-label="Passo 1: Entrada"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-inbox"/></svg></span><span class="xp-lb">Entrada</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="1" aria-label="Passo 2: Leitura"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-chip"/></svg></span><span class="xp-lb">Leitura</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="2" aria-label="Passo 3: Classificação"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-tag"/></svg></span><span class="xp-lb">Classificação</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="3" aria-label="Passo 4: Encaminha"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-route"/></svg></span><span class="xp-lb">Encaminha</span></button></div><div class="xp-cap" aria-live="polite"><span class="xp-n">Passo 1 de 4</span><span class="xp-t">Chegam e-mails, documentos, fotos e pedidos, todos misturados.</span></div><div class="xp-out"><span class="xp-rl">RESULTADO · E-MAIL CLASSIFICADO</span><div class="chat"><div class="in rowin" style="animation-delay:.05s"><b>E-mail recebido:</b> "Bom dia, gostaria de um orçamento para 200 unidades com entrega em São Paulo até dia 20."</div><div class="ai rowin" style="animation-delay:.6s"><div class="row"><span>Orçamento</span><span>Prioridade alta</span><span>Comercial</span></div><span>Quantidade: 200 · Entrega: São Paulo · Prazo: dia 20. Encaminhado ao comercial e registrado na planilha.</span></div></div></div></div><p class="disc">Exemplo ilustrativo com dados fictícios. Clique nos passos para navegar.</p></div>
+  </div></div>
+  <section><div class="wrap">
+    <div class="sec-head"><h2 class="h">Exemplos de agentes</h2><p>Agentes desse tipo já rodam em operação de grande empresa. O mesmo método serve para a sua.</p></div>
+    <div class="ex">
+      <div><strong>Classificador de e-mails</strong><span>Separa orçamentos, reclamações, currículos e pedidos e registra tudo numa planilha.</span></div>
+      <div><strong>Auditor de documentos</strong><span>Confere anexos, notas e comprovantes e aponta só o que está errado.</span></div>
+      <div><strong>Leitura de fotos e etiquetas</strong><span>OCR com IA lê números e códigos de imagens e preenche o sistema.</span></div>
+      <div><strong>Apoio ao atendimento</strong><span>Sugere respostas para dúvidas frequentes com base nos seus documentos.</span></div>
+    </div>
+  </div></section>
+</main>
+
+<!-- ================= TREINAMENTO ================= -->
+<main class="sp" id="pg-treinamento" hidden>
+  <div class="sp-hero"><div class="wrap">
+    <div class="txt">
+      <a class="back" href="#servicos"><svg width="16" height="16"><use href="#back"/></svg>Todos os serviços</a>
+      <p class="kick">05 · TREINAMENTO EM IA</p>
+      <h1 class="h">Seu time usando IA no trabalho a partir de amanhã.</h1>
+      <p>Aula ao vivo e online, de 1h30 a 2h, com exemplos do seu setor. Sem teoria demais: cada pessoa sai sabendo aplicar IA em tarefas reais da rotina. Também ensino a usar o Claude Code para automatizar tarefas do trabalho, mesmo para quem não programa.</p>
+      <div class="chips"><span>ChatGPT</span><span>Gemini</span><span>Microsoft Copilot</span><span>Claude</span><span>Claude Code</span></div>
+    </div>
+    <div class="vis"><div class="xp" data-caps="[&quot;Aula online de 1h30 a 2h, com exemplos da rotina do seu time.&quot;, &quot;Cada pessoa pratica com ChatGPT, Gemini ou Claude em tarefas reais.&quot;, &quot;Mostro como usar o Claude Code para automatizar tarefas, mesmo sem programar.&quot;, &quot;Resultado: o time sai usando IA no trabalho no dia seguinte.&quot;]"><div class="xp-flow"><button type="button" class="xp-node" data-i="0" aria-label="Passo 1: Aula ao vivo"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-present"/></svg></span><span class="xp-lb">Aula ao vivo</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="1" aria-label="Passo 2: Prática"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-chat"/></svg></span><span class="xp-lb">Prática</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="2" aria-label="Passo 3: Claude Code"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-term"/></svg></span><span class="xp-lb">Claude Code</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="3" aria-label="Passo 4: Aplicação"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-bulb"/></svg></span><span class="xp-lb">Aplicação</span></button></div><div class="xp-cap" aria-live="polite"><span class="xp-n">Passo 1 de 4</span><span class="xp-t">Aula online de 1h30 a 2h, com exemplos da rotina do seu time.</span></div><div class="xp-out"><span class="xp-rl">RESULTADO · EXERCÍCIO DA AULA</span><div class="type-box"><div class="tb-q"><span class="tb-who">Você</span><span class="type" data-text="Resuma esta planilha de vendas e me diga os 3 produtos que mais caíram no mês."></span><span class="caret"></span></div><div class="tb-a"><span class="tb-who">IA</span><span class="resp rowin" style="animation-delay:.1s">1. Kit Verão: −18%</span><span class="resp rowin" style="animation-delay:.35s">2. Linha Infantil: −12%</span><span class="resp rowin" style="animation-delay:.6s">3. Acessórios: −9%</span></div></div></div></div><p class="disc">Exemplo ilustrativo com dados fictícios. Clique nos passos para navegar.</p></div>
+  </div></div>
+  <section class="gray"><div class="wrap"><div class="sec-head"><h2 class="h">O que a aula cobre</h2><p>O conteúdo é ajustado à rotina do seu time.</p></div><div class="ex"><div><strong>Como pedir bem para a IA</strong><span>Prompts claros, com contexto e exemplo, para respostas úteis de primeira.</span></div><div><strong>E-mails, propostas e textos</strong><span>Rascunhos, revisões e respostas para clientes em minutos.</span></div><div><strong>Planilhas e análises</strong><span>Fórmulas, resumos e análises de dados pedidos em português.</span></div><div><strong>Atendimento e reuniões</strong><span>Respostas padrão, resumos de reunião e listas de próximos passos.</span></div><div><strong>Claude Code para tarefas do trabalho</strong><span>Automatizar planilhas, arquivos e pequenas rotinas direto no computador.</span></div><div><strong>Cuidados com dados e LGPD</strong><span>O que pode e o que não pode ser colocado numa ferramenta de IA.</span></div></div></div></section>
+  <section><div class="wrap">
+    <div class="sec-head"><h2 class="h">Como funciona a turma</h2><p>A primeira turma pode ser o seu piloto gratuito.</p></div>
+    <div class="ex">
+      <div><strong>Ao vivo e online</strong><span>De 1h30 a 2h, com espaço para perguntas do time.</span></div>
+      <div><strong>Exemplos do seu setor</strong><span>Antes da aula, entendo a rotina da equipe para montar os exercícios.</span></div>
+      <div><strong>Material de apoio</strong><span>Guia com os prompts e passos usados na aula, para consultar depois.</span></div>
+      <div><strong>Exercício prático</strong><span>Cada pessoa aplica IA numa tarefa real do próprio trabalho.</span></div>
+    </div>
+  </div></section>
+  <section class="gray" id="claude-code"><div class="wrap">
+    <div class="sec-head"><h2 class="h">Claude Code no seu trabalho</h2><p>O Claude Code é uma ferramenta de IA que trabalha direto nos seus arquivos e no seu computador. Eu ajudo o time a configurar e usar no dia a dia, com segurança.</p></div>
+    <div class="ex">
+      <div><strong>Planilhas e relatórios</strong><span>Juntar, limpar e analisar planilhas e gerar o relatório pronto, pedindo em português.</span></div>
+      <div><strong>Organizar arquivos e documentos</strong><span>Renomear, separar e resumir dezenas de arquivos de uma vez.</span></div>
+      <div><strong>Pequenas automações</strong><span>Criar scripts que repetem uma tarefa toda semana, sem precisar saber programar.</span></div>
+      <div><strong>Ferramentas internas</strong><span>Montar uma página, um painel simples ou um formulário para o time usar.</span></div>
+    </div>
+    <div style="margin-top:32px"><a class="btn k" data-wa="Olá Kleiton! Quero ajuda para usar o Claude Code nas tarefas do trabalho." href="#"><svg width="20" height="20"><use href="#wa"/></svg>Quero usar o Claude Code no trabalho</a></div>
+  </div></section>
+</main>
+
+<!-- ================= ENGENHARIA ================= -->
+<main class="sp" id="pg-engenharia" hidden>
+  <div class="sp-hero"><div class="wrap">
+    <div class="txt">
+      <a class="back" href="#servicos"><svg width="16" height="16"><use href="#back"/></svg>Todos os serviços</a>
+      <p class="kick">06 · ENGENHARIA DE DADOS</p>
+      <h1 class="h">Uma base de dados única e confiável.</h1>
+      <p>Integro ERP, CRM, planilhas e sistemas numa base organizada na nuvem, com histórico e regras de qualidade. É a fundação para dashboards, relatórios e IA funcionarem de verdade.</p>
+      <div class="chips"><span>BigQuery</span><span>Google Cloud</span><span>Databricks</span><span>dbt</span><span>Airflow</span><span>Python · SQL</span></div>
+    </div>
+    <div class="vis"><div class="xp" data-caps="[&quot;ERP, CRM, e-commerce e planilhas: cada fonte com seu formato e seus erros.&quot;, &quot;Os dados chegam na nuvem do jeito que vieram, com histórico guardado.&quot;, &quot;Limpo, padronizo e cruzo as informações com as mesmas regras para todos.&quot;, &quot;Resultado: base confiável e validada, pronta para painéis e IA.&quot;]"><div class="xp-flow"><button type="button" class="xp-node" data-i="0" aria-label="Passo 1: Fontes"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-db"/></svg></span><span class="xp-lb">Fontes</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="1" aria-label="Passo 2: Camada bruta"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-layers"/></svg></span><span class="xp-lb">Camada bruta</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="2" aria-label="Passo 3: Tratamento"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-filter"/></svg></span><span class="xp-lb">Tratamento</span></button><span class="xp-wire" aria-hidden="true"><i></i></span><button type="button" class="xp-node" data-i="3" aria-label="Passo 4: Qualidade"><span class="xp-ic"><svg width="28" height="28" aria-hidden="true"><use href="#i-shield"/></svg></span><span class="xp-lb">Qualidade</span></button></div><div class="xp-cap" aria-live="polite"><span class="xp-n">Passo 1 de 4</span><span class="xp-t">ERP, CRM, e-commerce e planilhas: cada fonte com seu formato e seus erros.</span></div><div class="xp-out"><span class="xp-rl">RESULTADO · VALIDAÇÃO DIÁRIA</span><div class="qtable"><div class="rowin" style="animation-delay:.05s"><span>vendas</span><span>atualizada 06:00</span><em class="okb">✓ ok</em></div><div class="rowin" style="animation-delay:.3s"><span>estoque</span><span>atualizada 06:00</span><em class="okb">✓ ok</em></div><div class="rowin" style="animation-delay:.55s"><span>clientes</span><span>atualizada 06:01</span><em class="okb">✓ ok</em></div><div class="rowin" style="animation-delay:.8s"><span>financeiro</span><span>2 linhas sem data</span><em class="wb">! alerta</em></div></div></div></div><p class="disc">Exemplo ilustrativo com dados fictícios. Clique nos passos para navegar.</p></div>
+  </div></div>
+  <section><div class="wrap">
+    <div class="sec-head"><h2 class="h">Exemplos de projetos</h2><p>Quando os números não batem entre as áreas, o problema quase sempre está aqui.</p></div>
+    <div class="ex">
+      <div><strong>Base única de vendas</strong><span>ERP, e-commerce e planilhas das lojas juntos, com os mesmos critérios.</span></div>
+      <div><strong>Histórico preservado</strong><span>Dados guardados mês a mês para comparar períodos e ver tendências.</span></div>
+      <div><strong>Qualidade automática</strong><span>Validações que avisam quando um dado chega errado ou incompleto.</span></div>
+      <div><strong>Pronta para IA</strong><span>Base organizada para alimentar agentes e análises mais avançadas.</span></div>
+    </div>
+  </div></section>
+</main>
+
+<!-- CTA comum das páginas de serviço -->
+<div class="sp-cta" id="sp-cta" hidden>
+  <div class="wrap">
+    <h2 class="h" id="sp-cta-title">Quer um projeto assim na sua empresa?</h2>
+    <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+      <a class="btn k" id="sp-cta-btn" href="#"><svg width="20" height="20"><use href="#wa"/></svg>Quero o piloto gratuito</a>
+      <span style="font-weight:600">WhatsApp (27) 98133-0439 · vagas limitadas</span>
+      <div class="mailrow"><a class="mail" href="mailto:de.kleiton.santos@gmail.com?subject=Contato%20pelo%20site"><svg width="18" height="18" aria-hidden="true"><use href="#i-mail"/></svg>de.kleiton.santos@gmail.com</a><button type="button" class="copy" data-copy="de.kleiton.santos@gmail.com">Copiar e-mail</button></div>
+    </div>
+  </div>
+  <div class="wrap" style="margin-top:28px"><div class="nextnav" id="nextnav"></div></div>
+</div>
+
+<footer><div class="wrap"><span>© 2026 Kleiton Santos · Data Hub Consultoria</span><span>WhatsApp (27) 98133-0439 · <a href="mailto:de.kleiton.santos@gmail.com" style="color:#fff">de.kleiton.santos@gmail.com</a></span><span>Atendimento online em todo o Brasil</span></div></footer>
+
+<a class="fab off" data-wa="Olá Kleiton! Vi sua página e quero conversar." href="#" aria-label="Falar no WhatsApp"><svg width="26" height="26"><use href="#wa"/></svg></a>
+
+<script>
+(() => {
+  const PHONE = '5527981330439';
+  const wa = t => 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(t);
+  document.querySelectorAll('[data-wa]').forEach(a => { a.href = wa(a.dataset.wa); a.target = '_blank'; a.rel = 'noopener'; });
+
+  // marquee: duplica os itens para o loop contínuo
+  const track = document.getElementById('track');
+  track.insertAdjacentHTML('beforeend', [...track.children].map(a => a.outerHTML.replace('<a ', '<a tabindex="-1" aria-hidden="true" ')).join(''));
+
+  // notificações que trocam no cartão do topo
+  const msgs = [
+    ['Relatório enviado', 'segunda, 08:00 · WhatsApp'],
+    ['E-mail classificado pela IA', 'orçamento · encaminhado ao comercial'],
+    ['Estoque baixo detectado', 'alerta enviado ao compras'],
+    ['Dashboard atualizado', 'dados de hoje, sem planilha'],
+    ['Conciliação concluída', '2 divergências encontradas']
+  ];
+  const tk = document.getElementById('ticker'); let mi = 0;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (tk && !reduce) setInterval(() => {
+    tk.classList.add('out');
+    setTimeout(() => { mi = (mi + 1) % msgs.length; tk.innerHTML = '<b>' + msgs[mi][0] + '</b><span>' + msgs[mi][1] + '</span>'; tk.classList.remove('out'); }, 350);
+  }, 2800);
+
+  // páginas de serviço
+  const SV = {
+    'dashboards': ['Dashboards e BI', 'Quero um dashboard para a minha empresa.', 'Quer um dashboard assim na sua empresa?'],
+    'relatorios': ['Relatórios automáticos', 'Quero automatizar um relatório da minha empresa.', 'Qual relatório você quer que chegue sozinho?'],
+    'automacao': ['Automação e RPA', 'Quero automatizar uma tarefa repetitiva da minha empresa.', 'Qual tarefa repetitiva você quer tirar do time?'],
+    'agentes-ia': ['Agentes de IA', 'Quero criar um agente de IA para a minha empresa.', 'Quer um agente de IA trabalhando para o seu time?'],
+    'treinamento': ['Treinamento em IA', 'Quero agendar um treinamento de IA para o meu time.', 'Vamos agendar a turma do seu time?'],
+    'engenharia': ['Engenharia de dados', 'Quero organizar os dados da minha empresa numa base única.', 'Quer seus dados numa base única e confiável?']
+  };
+  const home = document.getElementById('home'), cta = document.getElementById('sp-cta');
+  const pages = [...document.querySelectorAll('main.sp')];
+  const replay = el => el.querySelectorAll('.mbars span,.bub,.flow div').forEach(n => { n.style.animationName = 'none'; void n.offsetWidth; n.style.animationName = ''; });
+
+  // ===== explicadores animados =====
+  const reduceM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let xpTimer = null, xpPause = 0;
+  function typeText(el) {
+    const full = el.dataset.text; let i = 0; el.textContent = '';
+    clearInterval(el._t);
+    if (reduceM) { el.textContent = full; return; }
+    el._t = setInterval(() => { el.textContent = full.slice(0, ++i); if (i >= full.length) clearInterval(el._t); }, 22);
+  }
+  function setStep(xp, i) {
+    const nodes = [...xp.querySelectorAll('.xp-node')], wires = [...xp.querySelectorAll('.xp-wire')];
+    const caps = JSON.parse(xp.dataset.caps), last = nodes.length - 1;
+    nodes.forEach((n, k) => { n.classList.toggle('on', k === i); n.classList.toggle('done', k < i); });
+    wires.forEach((w, k) => { w.classList.toggle('done', k < i); w.classList.toggle('go', k === i - 1); });
+    const cap = xp.querySelector('.xp-cap');
+    cap.classList.add('fade');
+    setTimeout(() => {
+      cap.querySelector('.xp-n').textContent = 'Passo ' + (i + 1) + ' de ' + nodes.length;
+      cap.querySelector('.xp-t').textContent = caps[i];
+      cap.classList.remove('fade');
+    }, 200);
+    const out = xp.querySelector('.xp-out');
+    const show = i === last;
+    if (show && !out.classList.contains('show')) {
+      out.classList.add('show');
+      out.querySelectorAll('.mbars span,.bub,.flow div,.rowin').forEach(n => { n.style.animationName = 'none'; void n.offsetWidth; n.style.animationName = ''; });
+      const ty = out.querySelector('.type');
+      if (ty) { typeText(ty); out.querySelectorAll('.resp').forEach(r => { r.style.animationPlayState = 'paused'; r.style.opacity = '0'; });
+        setTimeout(() => out.querySelectorAll('.resp').forEach(r => { r.style.opacity = ''; r.style.animationName = 'none'; void r.offsetWidth; r.style.animationName = ''; r.style.animationPlayState = 'running'; }), reduceM ? 0 : ty.dataset.text.length * 22 + 200); }
+    } else if (!show) out.classList.remove('show');
+    xp._i = i;
+  }
+  function startXp(page) {
+    clearTimeout(xpTimer);
+    const xp = page && page.querySelector('.xp'); if (!xp) return;
+    setStep(xp, 0);
+    if (reduceM) { setStep(xp, xp.querySelectorAll('.xp-node').length - 1); return; }
+    const n = xp.querySelectorAll('.xp-node').length;
+    const tick = () => {
+      const wait = xp._i === n - 1 ? 7000 : 2600;
+      xpTimer = setTimeout(() => {
+        if (Date.now() >= xpPause) setStep(xp, xp._i === n - 1 ? 0 : xp._i + 1);
+        tick();
+      }, Date.now() < xpPause ? 1000 : wait);
+    };
+    tick();
+  }
+  document.querySelectorAll('.xp-node').forEach(b => b.addEventListener('click', () => {
+    xpPause = Date.now() + 9000; setStep(b.closest('.xp'), +b.dataset.i);
+  }));
+
+  function route(scroll) {
+    const h = location.hash.slice(1);
+    if (SV[h]) {
+      home.hidden = true; cta.hidden = false;
+      pages.forEach(p => p.hidden = p.id !== 'pg-' + h);
+      const p = document.getElementById('pg-' + h); replay(p);
+      document.getElementById('sp-cta-title').textContent = SV[h][2];
+      document.getElementById('sp-cta-btn').href = wa('Olá Kleiton! ' + SV[h][1] + ' Quero saber sobre o piloto gratuito.');
+      document.getElementById('sp-cta-btn').target = '_blank';
+      document.getElementById('nextnav').innerHTML = '<span style="font-weight:700;align-self:center;margin-right:6px">Outros serviços:</span>' + Object.keys(SV).filter(k => k !== h).map(k => '<a href="#' + k + '">' + SV[k][0] + '</a>').join('');
+      window.scrollTo(0, 0);
+    } else {
+      pages.forEach(p => p.hidden = true); cta.hidden = true; home.hidden = false;
+      const el = h && document.getElementById(h);
+      if (el && scroll) requestAnimationFrame(() => el.scrollIntoView());
+      else if (!h || h === 'topo') window.scrollTo(0, 0);
+    }
+    startXp(SV[h] ? document.getElementById('pg-' + h) : null);
+  }
+  window.addEventListener('hashchange', () => route(true));
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (a && a.getAttribute('href') === location.hash) { e.preventDefault(); route(true); }
+  });
+  route(true);
+
+
+  // formulário de contato
+  const form = document.getElementById('ctForm'), err = document.getElementById('ctErr');
+  let via = 'email';
+  form.querySelectorAll('[data-via]').forEach(b => b.addEventListener('click', () => via = b.dataset.via));
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const f = new FormData(form), nome = (f.get('nome') || '').trim(), emp = (f.get('empresa') || '').trim(), ass = f.get('assunto'), msg = (f.get('msg') || '').trim();
+    if (!nome || !msg) { err.hidden = false; return; }
+    err.hidden = true;
+    const corpo = 'Olá Kleiton!\n\n' + msg + '\n\nNome: ' + nome + (emp ? '\nEmpresa: ' + emp : '') + '\nAssunto: ' + ass;
+    if (via === 'wa') window.open(wa(corpo), '_blank', 'noopener');
+    else location.href = 'mailto:de.kleiton.santos@gmail.com?subject=' + encodeURIComponent(ass + ' · ' + nome + (emp ? ' (' + emp + ')' : '')) + '&body=' + encodeURIComponent(corpo);
+  });
+
+  // copiar e-mail
+  document.querySelectorAll('.copy').forEach(b => b.addEventListener('click', async () => {
+    const v = b.dataset.copy, old = b.textContent;
+    try { await navigator.clipboard.writeText(v); b.textContent = 'E-mail copiado'; }
+    catch (e) { const a = b.previousElementSibling; const r = document.createRange(); r.selectNodeContents(a); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selecionado, copie'; }
+    setTimeout(() => b.textContent = old, 2200);
+  }));
+
+  // botão flutuante aparece só depois do topo
+  const fab = document.querySelector('.fab');
+  const tog = () => fab.classList.toggle('off', !home.hidden && window.scrollY < 480);
+  window.addEventListener('scroll', tog, { passive: true }); window.addEventListener('hashchange', tog); tog();
+})();
+</script>
+</body>
+</html>
